@@ -27,6 +27,7 @@ module.exports = {
             ]
         },
         css  : [
+            'public/css/core/sass/core.css',
             'public/css/**/sass/*.css'
         ],
         js   : [
