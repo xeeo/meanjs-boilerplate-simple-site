@@ -1,0 +1,17 @@
+<div class="container" data-ng-controller="FooterController">
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="footer-nav uppercase">
+				<li data-ng-repeat="item in menu.items | orderBy: 'position'"
+					data-ui-sref-active="active"
+					data-ng-class="item.classes">
+
+					<a data-ng-if="!item.state" href="{{item.url}}" title="{{item.title}}" data-ng-bind="item.title"></a>
+					<a data-ng-if="item.state" href="{{item.url}}" data-ui-sref="{{item.state}}" title="{{item.title}}" data-ng-bind="item.title"></a>
+				</li>
+			</ul>
+
+			<p class="footer-copy">&copy; Copyright, {{currentYear}}.</p>
+		</div>
+	</div>
+</div>

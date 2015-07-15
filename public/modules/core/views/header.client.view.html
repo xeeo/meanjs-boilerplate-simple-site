@@ -1,0 +1,35 @@
+<div class="container" data-ng-controller="HeaderController">
+    <div class="navbar-header">
+        <button class="navbar-toggle" type="button" data-ng-click="toggleCollapsibleMenu()">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="logo pull-left" data-ui-sref="home"></a>
+    </div>
+    <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
+        <ul class="nav navbar-nav">
+            <li data-ng-repeat="item in menu.items | orderBy: 'position'"
+                data-ng-switch="item.items"
+                data-ui-sref-active="active"
+                data-ng-class="item.classes"
+                dropdown="item.items">
+
+                <a data-ng-switch-when="dropdown" class="dropdown-toggle">
+                    <span data-ng-bind="item.title"></span>
+                    <b class="caret"></b>
+                </a>
+                <ul data-ng-switch-when="dropdown" class="dropdown-menu">
+                    <li data-ng-repeat="subitem in item.items | orderBy: 'position'"
+                        ng-class="{active: $uiRoute}">
+                        <a href="{{subitem.url}}" title="{{subitem.title}}" data-ng-bind="subitem.title"></a>
+                    </li>
+                </ul>
+
+                <a data-ng-if="!item.state" data-ng-switch-default href="{{item.url}}" title="{{item.title}}" data-ng-bind="item.title"></a>
+                <a data-ng-if="item.state" data-ng-switch-default href="{{item.url}}" data-ui-sref="{{item.state}}" title="{{item.title}}" data-ng-bind="item.title"></a>
+            </li>
+        </ul>
+    </nav>
+</div>
