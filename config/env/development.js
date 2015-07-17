@@ -27,15 +27,13 @@ module.exports = {
             ]
         },
         css  : [
-            'public/css/core/sass/core.css',
-            'public/css/**/sass/*.css'
+            'public/css/core/sass/core.css'
         ],
         js   : [
             'public/config.js',
             'public/application.js',
             'public/modules/*/*.js',
             'public/modules/*/**/*.js'
-        ],
-        tests: []
+        ]
     }
 };

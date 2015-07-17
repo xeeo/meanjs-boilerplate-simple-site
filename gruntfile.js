@@ -3,13 +3,13 @@
 module.exports = function (grunt) {
     // Unified Watch Object
     var watchFiles = {
-        serverViews: ['app/views/**/*.*'],
-        serverJS:    ['gruntfile.js', 'server.js', 'config/**/*.js', 'app/**/*.js'],
-        clientViews: ['public/modules/**/views/**/*.html'],
-        clientJS:    ['public/js/*.js', 'public/modules/**/*.js'],
-        clientCSS:   ['public/css/**/*.css'],
-        devSassDir:  ['public/modules/'],
-        devSassFiles:['public/modules/**/*.scss']
+        serverViews:  ['app/views/**/*.*'],
+        serverJS:     ['gruntfile.js', 'server.js', 'config/**/*.js', 'app/**/*.js'],
+        clientViews:  ['public/modules/**/views/**/*.html'],
+        clientJS:     ['public/js/*.js', 'public/modules/**/*.js'],
+        clientCSS:    ['public/css/**/*.css'],
+        devSassDir:   ['public/modules/'],
+        devSassFiles: ['public/modules/**/*.scss']
     };
 
     // Project Configuration
@@ -49,9 +49,9 @@ module.exports = function (grunt) {
                     livereload: true
                 }
             },
-            sass:   {
-                files:   watchFiles.devSassFiles,
-                tasks:   ['compass']
+            sass:        {
+                files: watchFiles.devSassFiles,
+                tasks: ['compass']
             }
         },
         jshint:           {
@@ -134,9 +134,22 @@ module.exports = function (grunt) {
             }
         },
         compass:          {
-            dist: {
+            dist:       {
                 options: {
+                    imagesDir:   'modules',
+                    fontsDir:    'modules',
                     sassDir:     watchFiles.devSassDir,
+                    specify:     'public/modules/core/sass/core.scss',
+                    cssDir:      ['public/css/'],
+                    outputStyle: 'expanded'
+                }
+            },
+            production: {
+                options: {
+                    imagesDir:   'modules',
+                    fontsDir:   'modules',
+                    sassDir:     watchFiles.devSassDir,
+                    specify:     'public/modules/core/sass/core.scss',
                     cssDir:      ['public/css/'],
                     environment: 'production'
                 }
@@ -160,17 +173,17 @@ module.exports = function (grunt) {
     });
 
     // Default task(s).
-    grunt.registerTask('default', ['lint', 'concurrent:default']);
+    grunt.registerTask('default', ['compass:dist', 'lint', 'concurrent:default']);
 
     // Debug task.
-    grunt.registerTask('debug', ['lint', 'concurrent:debug']);
+    grunt.registerTask('debug', ['compass:dist', 'lint', 'concurrent:debug']);
 
     // Secure task(s).
-    grunt.registerTask('secure', ['env:secure', 'lint', 'concurrent:default']);
+    grunt.registerTask('secure', ['env:secure', 'compass:dist', 'lint', 'concurrent:default']);
 
     // Lint task(s).
-    grunt.registerTask('lint', ['jshint', 'compass', 'csslint']);
+    grunt.registerTask('lint', ['jshint', 'csslint']);
 
     // Build task(s).
-    grunt.registerTask('build', ['lint', 'loadConfig', 'ngAnnotate', 'uglify', 'cssmin']);
+    grunt.registerTask('build', ['compass:production', 'lint', 'loadConfig', 'ngAnnotate', 'uglify', 'cssmin']);
 };

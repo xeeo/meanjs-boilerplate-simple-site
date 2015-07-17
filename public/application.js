@@ -11,14 +11,17 @@ angular.module(ApplicationConfiguration.applicationModuleName)
         }
     ])
     .run(['$rootScope', '$state',
-        function ($rootScope, $state) {
-            $rootScope.state = $state;
-            $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-                if (!$rootScope.bodyClasses) { $rootScope.bodyClasses = {} }
-                $rootScope.bodyClasses[toState.name] = true;
-            });
-        }
-    ]);
+       function ($rootScope, $state) {
+           $rootScope.state = $state;
+           $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+               $rootScope.bodyClasses = {};
+               var className = toState.name;
+               className     = className.replace('.', '-');
+
+               $rootScope.bodyClasses[className] = true;
+           });
+       }
+   ]);
 
 //Then define the init function for starting up the application
 angular.element(document).ready(function () {
